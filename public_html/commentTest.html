@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        <link type="text/css" rel="stylesheet" href="comments.css"/>
+        <script type='text/javascript' src='jquery-2.1.4.min.js'></script>
+        
+<!--        <script type='text/javascript' src='frontend.js'></script>-->
+    </head>
+    
+       
+    <body>
+        <script>
+            window.onload = function() {
+                alert("Running...");
+            }
+
+            $(document).ready(function(){
+                $('#minus').click(function(){
+                    $(this).toggleClass("down");
+                });
+            });
+
+            $(document).ready(function(){
+                $('#plus').click(function(){
+                    $(this).toggleClass("down");
+                });
+            });
+        </script> 
+        
+        
+        
+
+        <div id="commentContainer">
+            <div id="Lcomment">
+
+                <div id="plus"></div>
+
+                <div id="commentPoints">
+                    <div>47</div>
+                </div>
+
+                <div id="minus"></div>
+            </div>
+            
+            <table id="RComment">
+                <tr>
+                    <td id="commentName">Carter Fulford</td>
+                    <td id="date">11/21/15</td>
+
+                </tr>
+                <tr><td id="commentContent" colspan="2">"123456789012345678901234567890123456789012345678901234567890123456789012345678901234..."</td>
+                </tr>
+            </table>
+        </div>
+<!--        </div>-->
+        
+</body>
+</html>
