@@ -47,6 +47,7 @@ chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
             createComment(entry);
             
         });
+        addCommentAnimations();
     } else if (msgsShown = true) {
         $("#__msg_overlay").show();
     }
@@ -60,7 +61,7 @@ function dimPage() {
       "width" : "100%"
     , "height" : "100%"
     , "background" : "#000"
-    , "position" : "fixed"
+    , "position" : "absolute"
     , "top" : "0"
     , "left" : "0"
     , "zIndex" : zIndex
@@ -75,7 +76,7 @@ function dimPage() {
     /*
      * Create button to close overlay
      */
-    $('<div id="__close_msg_overlay">&times;</div>').appendTo(document.body);
+    $('<div id="__close_msg_overlay">&times;</div>').appendTo($("#__msg_overlay"));
     $("#__close_msg_overlay").click(function() {
         //$("#__close_msg_overlay").hide();
         $("#__msg_overlay").hide();
@@ -118,21 +119,85 @@ function findHighestZIndex()
  * functions for making the comment
  */
 function createComment(comment) {
+    createComment_actual(comment);
+}
+function createComment_simple(comment) {
     var zIndex = findHighestZIndex() + 15;
     //console.log
-    $("#__msg_overlay").append('<div id="commentCon">');
-    $("#commentCon").css({
-                    "width" : "50px"
-                  , "height" : "50px"
+    $("#__msg_overlay").append('<div id="blCommentContainer' + comment.ID + '">');
+    $("#blCommentContainer" + comment.ID).css({
+                    "width" : "80px"
+                  , "height" : "30px"
                   , "background" : "#4183D7"
-                  , "position" : "fixed"
-                  , "top" : "80px"
-                  , "left" : "80px"
+                  , "position" : "absolute"
+                  , "top" : getCommentY(comment)
+                  , "left" : getCommentX(comment)
                   , "zIndex" : zIndex
                   , "opacity" : 1.0
             });
-
 }
+
+function createComment_actual(comment) {
+    var zIndex = findHighestZIndex() + 15;
+    
+    if (!comment.pts) {
+        comment.pts = 47;                            //Server not yet set up to sent this data 
+    }
+    
+    
+    $("#__msg_overlay").append('<div id="blCommentContainer' + comment.ID + '" class="blcommentContainer" >');
+    
+    $("#blCommentContainer" + comment.ID).append('<div class="blLcomment">');
+        $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blPlus">');
+        $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blCommentPoints"><div>' + comment.pts + '</div></div>');
+            //$("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blCommentPoints").append
+        $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blMinus">');
+        
+    $("#blCommentContainer" + comment.ID).append('<table class="blRComment">');
+        $("#blCommentContainer" + comment.ID).children("table.blRComment").append('<tr class="blRCommentR1"><td class="blCommentName">' + comment.username + '</td><td class="blDate">' + comment.dateSubmitted + '</td></tr>');
+            //$("#blCommentContainer" + comment.ID).children("table.blRComment").children("tr.blRCommentR1").append('<td class="blCommentName"Carter Fulford</td>');
+            //$("#blCommentContainer" + comment.ID).children("table.blRComment").children("tr.blRCommentR1").append('<td class="blDate">11/21/15</td>');
+        $("#blCommentContainer" + comment.ID).children("table.blRComment").append('<tr class="blRCommentR2"><td class="blCommentContent" colspan="2">"' + comment.comment + '"</td></tr>');
+            
+    
+    
+    $("#blCommentContainer" + comment.ID).css({
+//                  "position" : "absolute"
+//                  , 
+                    "top" : getCommentY(comment)
+                  , "left" : getCommentX(comment)
+                  , "zIndex" : zIndex
+                  , "opacity" : 1.0
+            });
+}
+
+function addCommentAnimations() {
+//            var isUp = false;
+//            var isDown = false;
+//            
+//            $(document).ready(function(){
+//                $('#minus').click(function(){
+//                    $(this).toggleClass("down");
+//                    isDown = true;
+//                    if (isUp == true) {
+//                        $('#plus').toggleClass("down");
+//                        isUp = false;
+//                    }
+//                });
+//            });
+//
+//            $(document).ready(function(){
+//                $('#plus').click(function(){
+//                    $(this).toggleClass("down");
+//                    isUp = true;
+//                    if (isDown == true) {
+//                        $('#minus').toggleClass("down");
+//                        isDown = false;
+//                    }
+//                });
+//            });
+}
+
 function getCommentX(comment){
     var clientWidth = window.innerWidth
         || document.documentElement.clientWidth
