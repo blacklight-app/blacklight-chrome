@@ -49,7 +49,7 @@ chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
         });
         addCommentAnimations();
     } else if (msgsShown = true) {
-        $("#__msg_overlay").show();
+        $("#__blmsg_overlay").show();
     }
   
 });
@@ -57,7 +57,7 @@ chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 function dimPage() {
     var zIndex = findHighestZIndex() + 10;
     
-    $('<div id="__msg_overlay">').css({
+    $('<div id="__blmsg_overlay">').css({
       "width" : "100%"
     , "height" : "100%"
     , "background" : "#000"
@@ -76,12 +76,14 @@ function dimPage() {
     /*
      * Create button to close overlay
      */
-    $('<div id="__close_msg_overlay">&times;</div>').appendTo($("#__msg_overlay"));
-    $("#__close_msg_overlay").click(function() {
-        //$("#__close_msg_overlay").hide();
-        $("#__msg_overlay").hide();
+    $('<div id="__blclose_msg_overlay">&times;</div>').appendTo($("#__blmsg_overlay"));
+    $("#__blclose_msg_overlay").click(function() {
+        //Hide overlay and all comments
+        $("#__blmsg_overlay").hide();
+        $("div.blcommentContainer").hide();
+        
     });
-    $("#__close_msg_overlay").css({
+    $("#__blclose_msg_overlay").css({
           "width" : "20px"
         , "height" : "20px"
         , "position" : "fixed"
@@ -124,7 +126,7 @@ function createComment(comment) {
 function createComment_simple(comment) {
     var zIndex = findHighestZIndex() + 15;
     //console.log
-    $("#__msg_overlay").append('<div id="blCommentContainer' + comment.ID + '">');
+    $("#__blmsg_overlay").append('<div id="blCommentContainer' + comment.ID + '">');
     $("#blCommentContainer" + comment.ID).css({
                     "width" : "80px"
                   , "height" : "30px"
@@ -145,8 +147,8 @@ function createComment_actual(comment) {
     }
     
     
-    $("#__msg_overlay").append('<div id="blCommentContainer' + comment.ID + '" class="blcommentContainer" >');
-    
+    //$("#__blmsg_overlay").append('<div id="blCommentContainer' + comment.ID + '" class="blcommentContainer" >');
+    $('<div id="blCommentContainer' + comment.ID + '" class="blcommentContainer" >').appendTo(document.body);
     $("#blCommentContainer" + comment.ID).append('<div class="blLcomment">');
         $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blPlus">');
         $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blCommentPoints"><div>' + comment.pts + '</div></div>');

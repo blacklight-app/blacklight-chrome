@@ -2,7 +2,7 @@
   "manifest_version": 2,
 
   "name": "BlackLight",
-  "description": "Incited a riot once",
+  "description": "Has Cancer",
   "version": "0.0.1",
 
   "browser_action": {
@@ -13,7 +13,8 @@
   
   "content_scripts": [{
     "matches": ["http://*/*", "https://*/*"],
-    "js": ["contentScript.js"],
+    "js": ["contentScript.js", "jquery-2.1.4.min.js"],
+    "css": ["contentCss.css"],
     "run_at": "document_end",
     "all_frames": true
     }],

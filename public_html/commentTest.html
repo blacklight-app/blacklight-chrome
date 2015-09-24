@@ -21,47 +21,85 @@ and open the template in the editor.
         <script>
             window.onload = function() {
                 alert("Running...");
+                
+//                $('<div id="comment">').css({
+//                    "width" : "200px"
+//                  , "height" : "100px"
+//                  , "background" : "#4183D7"
+//                  , "position" : "fixed"
+//                  , "top" : "800"
+//                  , "left" : "80"
+//                  , "zIndex" : 55
+//            }).appendTo(document.body);
             }
-
+            var isUp = false;
+            var isDown = false;
+            
             $(document).ready(function(){
                 $('#minus').click(function(){
                     $(this).toggleClass("down");
+                    isDown = true;
+                    if (isUp == true) {
+                        $('#plus').toggleClass("down");
+                        isUp = false;
+                    }
                 });
             });
 
             $(document).ready(function(){
                 $('#plus').click(function(){
                     $(this).toggleClass("down");
+                    isUp = true;
+                    if (isDown == true) {
+                        $('#minus').toggleClass("down");
+                        isDown = false;
+                    }
                 });
             });
+            
+            $('<div id="comment">').css({
+                    "width" : "40%"
+                  , "height" : "10%"
+                  , "background" : "#4183D7"
+                  , "position" : "fixed"
+                  , "top" : "800"
+                  , "left" : "80"
+                  , "zIndex" : 55
+            }).appendTo(document.body);
+            
+//            var btn = document.createElement("BUTTON");        // Create a <button> element
+//            var t = document.createTextNode("CLICK ME");       // Create a text node
+//            btn.appendChild(t);                                // Append the text to <button>
+//            document.body.appendChild(btn);                    // Append <button> to <body>
         </script> 
         
         
         
 
-        <div id="commentContainer">
-            <div id="Lcomment">
+        <div class="blcommentContainer">
+            <div id="blLcomment">
 
-                <div id="plus"></div>
-
-                <div id="commentPoints">
+                <div class="blPlus"></div>
+                
+                <div class="commentPoints">
                     <div>47</div>
                 </div>
 
                 <div id="minus"></div>
             </div>
             
-            <table id="RComment">
-                <tr>
-                    <td id="commentName">Carter Fulford</td>
-                    <td id="date">11/21/15</td>
+            <table class="blRComment">
+                <tr class="blRCommentR1">
+                    <td class="blCommentName">Carter Fulford</td>
+                    <td class="blDate">11/21/15</td>
 
                 </tr>
-                <tr><td id="commentContent" colspan="2">"123456789012345678901234567890123456789012345678901234567890123456789012345678901234..."</td>
+                <tr class="blRCommentR2">
+                    <td class="blCommentContent" colspan="2">
+                        "123456789012345678901234567890123456789012345678901234567890123456789012345678901234..."
+                    </td>
                 </tr>
             </table>
         </div>
-<!--        </div>-->
-        
 </body>
 </html>

@@ -10,7 +10,7 @@ document.getElementsByTagName('head')[0].appendChild(script);
  * Pre-release version, version code 0001
  * 
  * This variable is stored on the server to keep track of different releases,
- * Change this when 
+ * Change this on every release and make note in changelog
  */
 var VERSION_CODE = "0001"; 
 var username = "Carter";
@@ -63,19 +63,9 @@ chrome.contextMenus.onClicked.addListener(onClickHandler);
 // Set up context menu tree at install time//
 chrome.runtime.onInstalled.addListener(function() {
   // Create one test item for each context type.
-    var contexts = ["page","selection","link","editable","image","video",
-                  "audio"];
-    
-//  for (var i = 0; i < contexts.length; i++) {
-//    var context = contexts[i];
-//    var title = "Test '" + context + "' menu item";
-//    var id = chrome.contextMenus.create({"title": title, "contexts":[context],
-//                                         "id": "context" + context});
-//    console.log("'" + context + "' item:" + id);
-//  }
-//  
+    var contexts = ["page","selection","link","editable","image","video","audio"];
   
-    chrome.contextMenus.create({"title":"Leave Comment", "id": "leaveComment", "contexts":contexts});
+    chrome.contextMenus.create({"title":"Post via BlackLight", "id": "leaveComment", "contexts":contexts});
     
 
 });
@@ -86,32 +76,10 @@ chrome.runtime.onInstalled.addListener(function() {
  * Mouse Coordinates stuff
  */
 
-//receiving message from c.js on every click
+//receiving message from contentScript.js on every click
 chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
 if (msg.from == 'mouseup') {
-    //storing position
+    //storing position in global variable
     gPos = msg.point;
 }
 })
-
-// onclick callback function.
-//function OnClick(info, tab, text, mousePos) {
-//    if (info.menuItemId == idConsole) {
-//        if (gPos != null) {
-//            alert('Position X: ' + gPos.pageX + '\nPosition Y: ' + gPos.pageY );
-//            //console.log('Position X: ' + gPos.clientX + '\nPosition Y: ' + gPos.clientY );
-//            gPos = null;
-//        } else {
-//            alert('gpos is null');
-//        }
-//    }
-//}
-
-    //on click sample callback with more params
-//var idConsole = chrome.contextMenus.create({
-//    title: 'Cursor Position',
-//    contexts: ["selection"],
-//    onclick: function(info, tab) {
-//        OnClick(info, tab, '%s', gPos);
-//        }
-//})

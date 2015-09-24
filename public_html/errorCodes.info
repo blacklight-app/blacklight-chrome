@@ -1,0 +1,11 @@
+/*
+ *  Error Codes:
+ *              When you receive an error code from blacklight, 
+ *              use this file for reference of what it means:
+ *
+ */
+
+Error 701:      X or Y coordinate is larger than the page height or width for a 
+                new comment, or is not a number detected when submiting to db.
+
+Error 702:      Reached a spot in the code it should not have in db.php

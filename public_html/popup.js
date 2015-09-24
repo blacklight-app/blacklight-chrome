@@ -8,10 +8,13 @@
  * jquery to go retrieve comments on page
  * returns a string of text from the server
  */
+var globalURL = '';
 
-function queryServer() {
-    var pageUrl = "none";
-    //pageUrl = info.pageUrl;
+
+function queryServer(pageUrl) {
+    //var pageUrl = "http://stackoverflow.com/questions/14245334/chrome-extension-sendmessage-from-background-to-content-script-doesnt-work";
+    
+    //console.log("url to send: " + pageUrl);
     
     var response = '';
     //alert("started");
@@ -22,7 +25,10 @@ function queryServer() {
                 data: 'url='+pageUrl,
                 success: function(output) 
                 {
-                    showText(output);
+                    
+                    sendComments(output);
+                    //showText(output);
+                    //alert(output);
                 }, error: function()
                 {
                     console.log("ajax failiure");
@@ -31,7 +37,7 @@ function queryServer() {
             });
     console.log(response);
     return response;        
-    return "shouldn't reach here";
+    //return "shouldn't reach here";
 }
 
 /*
@@ -39,38 +45,93 @@ function queryServer() {
  */
 function showText(statusText) {
   document.getElementById('p').textContent = statusText;
+  
+  
+  /*
+   * Send message to background script to show comment:
+   */
+//    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+//        chrome.tabs.sendMessage(tabs[0].id, {action: "show_comment", other: "showText"}, function(response) {});  
+//    });
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    //showText(queryServer());
-    queryServer();
-    //showText($response);
-    //alert("test");
-
-
-
-    //showText("changed");
-
-//  getCurrentTabUrl(function(url) {
-//    // Put the image URL in Google search.
-//    renderStatus('Performing Google Image search for ' + url);
-//
-//    getImageUrl(url, function(imageUrl, width, height) {
-//
-//      renderStatus('Search term: ' + url + '\n' +
-//          'Google image search result: ' + imageUrl);
-//      var imageResult = document.getElementById('image-result');
-//      // Explicitly set the width/height to minimize the number of reflows. For
-//      // a single image, this does not matter, but if you're going to embed
-//      // multiple external images in your page, then the absence of width/height
-//      // attributes causes the popup to resize multiple times.
-//      imageResult.width = width;
-//      imageResult.height = height;
-//      imageResult.src = imageUrl;
-//      imageResult.hidden = false;
-//
-//    }, function(errorMessage) {
-//      renderStatus('Cannot display image. ' + errorMessage);
+/*
+ * Send comment to page
+ */
+function sendComments(serverOutput){
+//    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+//        chrome.tabs.sendMessage(tabs[0].id, {
+//            action: "show_comment",
+//            text: "test Comment",
+//            username: "Carter",
+//            xPositionRatio: 0.5,
+//            yPositionRatio: 0.11112
+//        }, function(response) {});  
 //    });
-//  });
+//
+    //serverOutput.action = "show_comment";
+    var msgToSend = {
+        action: "show_comment",
+        comments: JSON.parse(serverOutput).comments
+    }
+    
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs){
+        chrome.tabs.sendMessage(tabs[0].id, msgToSend, function(response) {});  
+    });
+}
+
+
+/*
+ * The DOMContentLoaded event is called when the popup window is opened
+ * 
+ * when this occurs chrome.tabs.query gets the url of the current active tab,
+ * and then calls the query server function to retrieve the comments
+ */
+
+document.addEventListener('DOMContentLoaded', function() {
+    
+    chrome.tabs.query({active:true,currentWindow:true},function(tab){
+        //Be aware that `tab` is an array of Tabs 
+
+        queryServer(tab[0].url);
+    });
+    
+
 });
+
+
+var globalURL = '';
+
+
+function getCurrentUrl()
+{
+    var URL = 'this text should be replaced';
+    
+    
+    chrome.tabs.query({active:true,currentWindow:true},function(tab){
+        //Be aware that `tab` is an array of Tabs 
+        //console.log("get url");
+        //console.log(tab[0].url);
+        URL = tab[0].url;
+        //console.log( "url:" + globalURL);
+        //return tab[0].url;
+        
+    });
+    while (true) {
+        if (URL != 'this text should be replaced') {
+            console.log( "URL: " + URL);
+            return URL;
+        }
+    }
+    
+    
+    
+    //return "http://dylanchords.info/07_bob/stuck_inside_of_mobile.htm";
+    
+}
+
+function testGetCurrentUrl() {
+    
+    showText(getCurrentUrl());
+}
+
