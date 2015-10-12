@@ -89,7 +89,11 @@ function sendComments(serverOutput){
  */
 
 document.addEventListener('DOMContentLoaded', function() {
+    $("#_bl_loginbutton").click(login);
+    $("#_bl_logout").click(logout);
+    $("#_bl_logout").hide();
     
+    checkIfLoggedIn();
     chrome.tabs.query({active:true,currentWindow:true},function(tab){
         //Be aware that `tab` is an array of Tabs 
 
@@ -133,5 +137,85 @@ function getCurrentUrl()
 function testGetCurrentUrl() {
     
     showText(getCurrentUrl());
+}
+
+
+function checkIfLoggedIn() {
+    
+    response = $.ajax({
+                url: 'http://www.blacklight-app.com/blb/extensionLogin.php',
+                type: 'post',
+                //data: 'url='+pageUrl,
+                success: function(output) 
+                {
+                    var parsedOutput = JSON.parse(output);
+                    if (parsedOutput.logged_in == true) {
+                        $("#_bl_loginform").hide();
+                        $("#_bl_logininfo").text(parsedOutput.display_text);
+                        $("#_bl_logout").show();
+                    } else {
+                        $("#_bl_loginform").show();
+                        $("#_bl_logininfo").text("Please Log In");
+                        $("#_bl_logout").hide();
+                    } 
+                    console.log(JSON.stringify(output));
+                }, error: function()
+                {
+                    console.log("ajax failiure");
+                    return 'something went wrong, request failed';
+                }
+            });
+}
+
+function login() {
+    //console.log("clicked");
+    var username = $("#_bl_username").val();
+    var password = $("#_bl_password").val();
+    
+    //console.log("username: " + username + " Password: " + password);
+    response = $.ajax({
+            url: 'http://www.blacklight-app.com/blb/extensionLogin.php',
+            type: 'post',
+            data: 'username='+username+'&password='+password,
+            success: function(output) 
+            {
+                var parsedOutput = JSON.parse(output);
+                console.log(JSON.stringify(output));
+                if (parsedOutput.logged_in == true) {
+                    //checkIfLoggedIn();
+                    $("#_bl_logininfo").text(parsedOutput.display_text);
+                    $("#_bl_loginform").hide();
+                    $("#_bl_logout").show();
+                    
+                } else {
+                    $("#_bl_logininfo").text(parsedOutput.display_text);
+                }
+
+            }, error: function()
+            {
+                console.log("ajax failiure");
+                //return 'something went wrong, request failed';
+            }
+    });
+    
+}
+
+function logout() {
+    response = $.ajax({
+                url: 'http://www.blacklight-app.com/blb/logout.php',
+                type: 'post',
+                //data: 'url='+pageUrl,
+                success: function(output) 
+                {
+                    //var parsedOutput = JSON.parse(output);
+                    checkIfLoggedIn();
+                    
+                    //console.log(JSON.stringify(output));
+                }, error: function()
+                {
+                    console.log("ajax failiure");
+                    return 'something went wrong, request failed';
+                }
+            });
 }
 

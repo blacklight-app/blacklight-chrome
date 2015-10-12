@@ -32,17 +32,19 @@
     <script language="JavaScript" type="text/JavaScript" src="jquery-2.1.4.min.js"></script>
     <script src="popup.js"></script>
   </head>
-  <body>
-      <h1>
-          BlackLight
-      </h1>
-<!--      <button type="button" onclick="document.getElementById('p').innerHTML = queryServer()">
-            Click me to query server.
-      </button> 
-      
-      <p id="p">
-          waiting...
-      </p>-->
-  </body>
+    <body>
+        <div id="_bl_popup">
+            <h1>BlackLight</h1>
+                <div class="login-block" id="_bl_loginform">
+                    <h1>Login</h1>
+                    <input type="text" value="" placeholder="Username" id="_bl_username" />
+                    <input type="password" value="" placeholder="Password" id="_bl_password" />
+                    <button id="_bl_loginbutton">Submit</button>
+                </div>
+
+            <p id="_bl_logininfo">Please Login</p>
+            <button id="_bl_logout">Logout</button>    
+        </div>
+    </body>
 </html>
 
