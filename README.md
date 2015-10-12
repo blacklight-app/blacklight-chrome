@@ -9,4 +9,4 @@ A chrome extension:
 all the files are in public_html
 
 This project is subject to the Common Public Attribution License Version 1.0
-See public_html/LICENSE
+<br>See public_html/LICENSE
