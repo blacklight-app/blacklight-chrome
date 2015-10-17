@@ -2,8 +2,8 @@
   "manifest_version": 2,
 
   "name": "BlackLight",
-  "description": "Has Cancer",
-  "version": "0.0.1",
+  "description": "Internet Vandalism",
+  "version": "0.0.2",
 
   "browser_action": {
     "default_icon": "icon.png",
@@ -22,8 +22,7 @@
     "activeTab",
     "contextMenus",
     "http://www.blacklight-app.com/",
-    "https://www.blacklight-app.com/",
-    "identity"
+    "https://www.blacklight-app.com/"
   ],
   "background": {
     "scripts": ["background.js"]

@@ -192,30 +192,10 @@ function createComment_actual(comment) {
 }
 
 function addCommentAnimations() {
-//            var isUp = false;
-//            var isDown = false;
-//            
-//            $(document).ready(function(){
-//                $('#minus').click(function(){
-//                    $(this).toggleClass("down");
-//                    isDown = true;
-//                    if (isUp == true) {
-//                        $('#plus').toggleClass("down");
-//                        isUp = false;
-//                    }
-//                });
-//            });
-//
-//            $(document).ready(function(){
-//                $('#plus').click(function(){
-//                    $(this).toggleClass("down");
-//                    isUp = true;
-//                    if (isDown == true) {
-//                        $('#minus').toggleClass("down");
-//                        isDown = false;
-//                    }
-//                });
-//            });
+/*
+ * Not implemented yet
+ */
+
 }
 
 function getCommentX(comment){
@@ -237,7 +217,7 @@ function getCommentY(comment){
 /*
  * comment js from lucas' stuff
  * 
- * jquery for modifing the up/downvote
+ * jquery for modifing the up/downvote (not set up with IDs yet)
  */
 //$(document).ready(function(){
 //    $('#minus').click(function(){
@@ -249,5 +229,5 @@ function getCommentY(comment){
 //$(document).ready(function(){
 //    $('#plus').click(function(){
 //        $(this).toggleClass("down");
-//    });
+////    });
 //});
