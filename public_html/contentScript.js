@@ -160,18 +160,38 @@ function createComment_simple(comment) {
 function createComment_actual(comment) {
     var zIndex = findHighestZIndex() + 15;
     
-    if (!comment.pts) {
-        comment.pts = 47;                            //Server not yet set up to sent this data 
-    }
+//    if (!comment.points) {
+//        comment.points = 47;                            //Server not yet set up to sent this data 
+//    }
     
     
     //$("#__blmsg_overlay").append('<div id="blCommentContainer' + comment.ID + '" class="blcommentContainer" >');
     $('<div id="blCommentContainer' + comment.ID + '" class="blcommentContainer" >').appendTo(document.body);
     $("#blCommentContainer" + comment.ID).append('<div class="blLcomment">');
         $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blPlus">');
-        $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blCommentPoints"><div>' + comment.pts + '</div></div>');
+        
+        $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blCommentPoints"><div class="blCommentPointsInner">' + comment.points + '</div></div>');
             //$("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blCommentPoints").append
         $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blMinus">');
+        $("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blMinus").click(function () {
+            var upVoteBtn = $("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blPlus");
+            
+            if (!$(this).hasClass("selected"))  {
+                upVoteBtn.removeClass("selected");
+                downVoteComment(comment.ID);
+                $(this).addClass("selected");
+            }
+        });
+        
+        $("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blPlus").click(function () {
+            var downVoteBtn = $("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blMinus");
+            
+            if (!$(this).hasClass("selected"))  {
+                downVoteBtn.removeClass("selected");
+                upVoteComment(comment.ID);
+                $(this).addClass("selected");
+            }
+        });
         
     $("#blCommentContainer" + comment.ID).append('<table class="blRComment">');
         $("#blCommentContainer" + comment.ID).children("table.blRComment").append('<tr class="blRCommentR1"><td class="blCommentName">' + comment.username + '</td><td class="blDate">' + comment.dateSubmitted + '</td></tr>');
@@ -189,6 +209,31 @@ function createComment_actual(comment) {
                   , "zIndex" : zIndex
                   , "opacity" : 1.0
             });
+}
+
+function upVoteComment(ID) {
+    //console.log("This is where the upvote request would be sent for comment " + ID);
+    $.post("http://www.blacklight-app.com/blb/extensionAPI.php", {request: "voteComment", vote: "plus", commentID: ID}, function(data, status) {
+                        //console.log(data);
+                        var responseObj = JSON.parse(data);
+                        //console.log(responseObj);
+                        if (responseObj.success == true){
+                            var currentPts = $("#blCommentContainer" + ID).children("div.blLcomment").children('div.blCommentPoints').children('div.blCommentPointsInner').text();
+                            $("#blCommentContainer" + ID).children("div.blLcomment").children('div.blCommentPoints').children('div.blCommentPointsInner').html(parseInt(currentPts) + 1);
+                        }
+                    });
+}
+function downVoteComment(ID) {
+    //console.log("This is where the downvote request would be sent for comment " + ID);
+    $.post("http://www.blacklight-app.com/blb/extensionAPI.php", {request: "voteComment", vote: "minus", commentID: ID}, function(data, status) {
+                    //console.log(data);
+                    var responseObj = JSON.parse(data);
+                    //console.log(responseObj);
+                    if (responseObj.success == true){
+                        var currentPts = $("#blCommentContainer" + ID).children("div.blLcomment").children('div.blCommentPoints').children('div.blCommentPointsInner').text();
+                        $("#blCommentContainer" + ID).children("div.blLcomment").children('div.blCommentPoints').children('div.blCommentPointsInner').html(parseInt(currentPts) - 1);
+                    }
+                });
 }
 
 function addCommentAnimations() {
@@ -214,20 +259,3 @@ function getCommentY(comment){
     return Math.round(clientHeight * comment["yPositionRatio"]);
 }
 
-/*
- * comment js from lucas' stuff
- * 
- * jquery for modifing the up/downvote (not set up with IDs yet)
- */
-//$(document).ready(function(){
-//    $('#minus').click(function(){
-//        $(this).toggleClass("down");
-////        $('#plus').toggleClass("up");
-//    });
-//});
-//
-//$(document).ready(function(){
-//    $('#plus').click(function(){
-//        $(this).toggleClass("down");
-////    });
-//});

@@ -31,12 +31,15 @@ var globalURL = '';
 
 function queryServer(pageUrl) {    
     var response = '';
-    
+    var request = "requestComments";
+    console.log("requesting");
     response = $.ajax({
-                url: 'http://www.blacklight-app.com/blb/request.php',
+                //url: 'http://www.blacklight-app.com/blb/request.php',
+                url: 'http://www.blacklight-app.com/blb/extensionAPI.php',
                 type: 'post',
-                data: 'url='+pageUrl,
+                data: 'url='+pageUrl+'&request='+request,
                 success: function(output) {
+                    console.log("got response");
                     sendComments(output);
                     //showText(output);
                     //alert(output);
@@ -97,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
     checkIfLoggedIn();
     chrome.tabs.query({active:true,currentWindow:true},function(tab){
         //Be aware that `tab` is an array of Tabs 
-
+        console.log("query");
         queryServer(tab[0].url);
     });
     
