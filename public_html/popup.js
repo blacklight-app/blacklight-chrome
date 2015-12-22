@@ -27,7 +27,7 @@
  * returns a string of text from the server
  */
 var globalURL = '';
-
+var blacklightServer = "https://blacklight.larence.xyz";
 
 function queryServer(pageUrl) {    
     var response = '';
@@ -35,7 +35,7 @@ function queryServer(pageUrl) {
     console.log("requesting");
     response = $.ajax({
                 //url: 'http://www.blacklight-app.com/blb/request.php',
-                url: 'http://www.blacklight-app.com/blb/extensionAPI.php',
+                url: blacklightServer+'/extension/extensionAPI.php',
                 type: 'post',
                 data: 'url='+pageUrl+'&request='+request,
                 success: function(output) {
@@ -113,7 +113,7 @@ document.addEventListener('DOMContentLoaded', function() {
 function checkIfLoggedIn() {
     
     response = $.ajax({
-                url: 'http://www.blacklight-app.com/blb/extensionLogin.php',
+                url: blacklightServer+'/extension/extensionLogin.php',
                 type: 'post',
                 //data: 'url='+pageUrl,     // Merge this function queryServer
                 success: function(output) 
@@ -142,7 +142,7 @@ function login() {
     var password = $("#_bl_password").val();
     
     response = $.ajax({
-            url: 'http://www.blacklight-app.com/blb/extensionLogin.php',
+            url: blacklightServer+'/extension/extensionLogin.php',
             type: 'post',
             data: 'username='+username+'&password='+password,
             success: function(output) 
@@ -168,7 +168,7 @@ function login() {
 
 function logout() {
     response = $.ajax({
-                url: 'http://www.blacklight-app.com/blb/logout.php',
+                url: blacklightServer+'/extension/logout.php',
                 type: 'post',
                 success: function(output) 
                 {

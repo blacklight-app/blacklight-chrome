@@ -31,6 +31,7 @@
     border-radius: 5px;
     top: 20px;
     left: 20px;
+    font-family: sans-serif;
 }
 
 .blcommentContainer:hover {
@@ -137,4 +138,25 @@
     text-align: right;
     vertical-align: bottom;
     font-size: 12px;
+}
+.blCommentReplies {
+    position: absolute;
+/*    width: 310px;
+    height: 60px;*/
+/*    background-color: transparent;*/
+    background-color: #2F4F4F;
+    border-radius: 5px;
+    top: 20px;
+    left: 20px;
+    font-family: sans-serif;
+}
+.blCommentReplyContainer {
+    float: right;
+    position: relative;
+    font-size-adjust: auto;
+    font-size: 10px;
+    width: 40px;
+    height: 60px;
+    padding: 0;
+    margin: 5px 5px 0px 10px;
 }

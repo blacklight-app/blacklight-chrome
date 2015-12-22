@@ -28,7 +28,7 @@
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         
-        <link type="text/css" rel="stylesheet" href="comments.css"/>
+        <link type="text/css" rel="stylesheet" href="contentCss.css"/>
         <script type='text/javascript' src='jquery-2.1.4.min.js'></script>
         
 <!--        <script type='text/javascript' src='frontend.js'></script>-->
@@ -38,52 +38,54 @@
     <body>
         <script>
             window.onload = function() {
-                alert("Running...");
                 
-//                $('<div id="comment">').css({
-//                    "width" : "200px"
-//                  , "height" : "100px"
+            }).appendTo(document.body);
+//                alert("Running...");
+//                
+////                $('<div id="comment">').css({
+////                    "width" : "200px"
+////                  , "height" : "100px"
+////                  , "background" : "#4183D7"
+////                  , "position" : "fixed"
+////                  , "top" : "800"
+////                  , "left" : "80"
+////                  , "zIndex" : 55
+////            }).appendTo(document.body);
+//            }
+//            var isUp = false;
+//            var isDown = false;
+//            
+//            $(document).ready(function(){
+//                $('#minus').click(function(){
+//                    $(this).toggleClass("down");
+//                    isDown = true;
+//                    if (isUp == true) {
+//                        $('#plus').toggleClass("down");
+//                        isUp = false;
+//                    }
+//                });
+//            });
+//
+//            $(document).ready(function(){
+//                $('#plus').click(function(){
+//                    $(this).toggleClass("down");
+//                    isUp = true;
+//                    if (isDown == true) {
+//                        $('#minus').toggleClass("down");
+//                        isDown = false;
+//                    }
+//                });
+//            });
+//            
+//            $('<div id="comment">').css({
+//                    "width" : "40%"
+//                  , "height" : "10%"
 //                  , "background" : "#4183D7"
 //                  , "position" : "fixed"
 //                  , "top" : "800"
 //                  , "left" : "80"
 //                  , "zIndex" : 55
 //            }).appendTo(document.body);
-            }
-            var isUp = false;
-            var isDown = false;
-            
-            $(document).ready(function(){
-                $('#minus').click(function(){
-                    $(this).toggleClass("down");
-                    isDown = true;
-                    if (isUp == true) {
-                        $('#plus').toggleClass("down");
-                        isUp = false;
-                    }
-                });
-            });
-
-            $(document).ready(function(){
-                $('#plus').click(function(){
-                    $(this).toggleClass("down");
-                    isUp = true;
-                    if (isDown == true) {
-                        $('#minus').toggleClass("down");
-                        isDown = false;
-                    }
-                });
-            });
-            
-            $('<div id="comment">').css({
-                    "width" : "40%"
-                  , "height" : "10%"
-                  , "background" : "#4183D7"
-                  , "position" : "fixed"
-                  , "top" : "800"
-                  , "left" : "80"
-                  , "zIndex" : 55
-            }).appendTo(document.body);
             
 //            var btn = document.createElement("BUTTON");        // Create a <button> element
 //            var t = document.createTextNode("CLICK ME");       // Create a text node
@@ -91,7 +93,7 @@
 //            document.body.appendChild(btn);                    // Append <button> to <body>
         </script> 
         
-        
+<!--        
         
 
         <div class="blcommentContainer">
@@ -118,6 +120,40 @@
                     </td>
                 </tr>
             </table>
+        </div>-->
+<div>
+    <div id="blCommentContainer70" class="blcommentContainer" style="top: 95px; left: 97px; z-index: 99910115; opacity: 1;">
+        <div class="blLcomment">
+            <div class="blPlus"></div>
+            <div class="blCommentPoints">
+                <div class="blCommentPointsInner">
+                    0
+                </div>
+            </div>
+            <div class="blMinus">
+            </div>
         </div>
-</body>
+        <table class="blRComment">
+            <tbody>
+                <tr class="blRCommentR1">
+                    <td class="blCommentName">
+                        ADMINC
+                    </td>
+                    <td class="blDate">
+                        2015-11-27 02:02:06
+                    </td>
+                </tr>
+                <tr class="blRCommentR2">
+                    <td class="blCommentContent" colspan="2">
+                        "daefdffadafd"
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+    </div>
+    
+    
+</div>
+    </body>
 </html>

@@ -21,7 +21,7 @@
  * All portions of the code written by blacklight are Copyright (c) 2015. 
  * All Rights Reserved.
  */
-
+var blacklightServer = "https://blacklight.larence.xyz";
 //'use strict';
 //when mouse up, send message to background.js with this position
 document.addEventListener('mouseup', function (mousePos) {
@@ -139,41 +139,21 @@ function findHighestZIndex()
  * functions for making the comment
  */
 function createComment(comment) {
-    createComment_actual(comment);
-}
-function createComment_simple(comment) {
-    var zIndex = findHighestZIndex() + 15;
-    //console.log
-    $("#__blmsg_overlay").append('<div id="blCommentContainer' + comment.ID + '">');
-    $("#blCommentContainer" + comment.ID).css({
-                    "width" : "80px"
-                  , "height" : "30px"
-                  , "background" : "#4183D7"
-                  , "position" : "absolute"
-                  , "top" : getCommentY(comment)
-                  , "left" : getCommentX(comment)
-                  , "zIndex" : zIndex
-                  , "opacity" : 1.0
-            });
-}
-
-function createComment_actual(comment) {
     var zIndex = findHighestZIndex() + 15;
     
-//    if (!comment.points) {
-//        comment.points = 47;                            //Server not yet set up to sent this data 
-//    }
-    
-    
-    //$("#__blmsg_overlay").append('<div id="blCommentContainer' + comment.ID + '" class="blcommentContainer" >');
+    // Create the comment container
     $('<div id="blCommentContainer' + comment.ID + '" class="blcommentContainer" >').appendTo(document.body);
-    $("#blCommentContainer" + comment.ID).append('<div class="blLcomment">');
-        $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blPlus">');
+    
+    var commentContainer = $("#blCommentContainer" + comment.ID)
+    commentContainer.append('<div class="blLcomment">');
+        commentContainer.children("div.blLcomment").append('<div class="blPlus">');
         
-        $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blCommentPoints"><div class="blCommentPointsInner">' + comment.points + '</div></div>');
-            //$("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blCommentPoints").append
-        $("#blCommentContainer" + comment.ID).children("div.blLcomment").append('<div class="blMinus">');
-        $("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blMinus").click(function () {
+        commentContainer.children("div.blLcomment").append('<div class="blCommentPoints"><div class="blCommentPointsInner">' + comment.points + '</div></div>');
+   
+        commentContainer.children("div.blLcomment").append('<div class="blMinus">');
+        
+        //add downvote onclick function
+        commentContainer.children("div.blLcomment").children("div.blMinus").click(function () {
             var upVoteBtn = $("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blPlus");
             
             if (!$(this).hasClass("selected"))  {
@@ -182,8 +162,8 @@ function createComment_actual(comment) {
                 $(this).addClass("selected");
             }
         });
-        
-        $("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blPlus").click(function () {
+        //add upvote onclick function
+        commentContainer.children("div.blLcomment").children("div.blPlus").click(function () {
             var downVoteBtn = $("#blCommentContainer" + comment.ID).children("div.blLcomment").children("div.blMinus");
             
             if (!$(this).hasClass("selected"))  {
@@ -193,17 +173,14 @@ function createComment_actual(comment) {
             }
         });
         
-    $("#blCommentContainer" + comment.ID).append('<table class="blRComment">');
-        $("#blCommentContainer" + comment.ID).children("table.blRComment").append('<tr class="blRCommentR1"><td class="blCommentName">' + comment.username + '</td><td class="blDate">' + comment.dateSubmitted + '</td></tr>');
-            //$("#blCommentContainer" + comment.ID).children("table.blRComment").children("tr.blRCommentR1").append('<td class="blCommentName"Carter Fulford</td>');
-            //$("#blCommentContainer" + comment.ID).children("table.blRComment").children("tr.blRCommentR1").append('<td class="blDate">11/21/15</td>');
-        $("#blCommentContainer" + comment.ID).children("table.blRComment").append('<tr class="blRCommentR2"><td class="blCommentContent" colspan="2">"' + comment.comment + '"</td></tr>');
+    commentContainer.append('<table class="blRComment">');
+        commentContainer.children("table.blRComment").append('<tr class="blRCommentR1"><td class="blCommentName">' + comment.username + '</td><td class="blDate">' + comment.dateSubmitted + '</td></tr>');
+   
+        commentContainer.children("table.blRComment").append('<tr class="blRCommentR2"><td class="blCommentContent" colspan="2">"' + comment.comment + '"</td></tr>');
             
     
-    
-    $("#blCommentContainer" + comment.ID).css({
-//                  "position" : "absolute"
-//                  , 
+    //set the css for the position and zIndex
+    commentContainer.css({
                     "top" : getCommentY(comment)
                   , "left" : getCommentX(comment)
                   , "zIndex" : zIndex
@@ -211,9 +188,17 @@ function createComment_actual(comment) {
             });
 }
 
+/*
+ * Idea: vote tokens
+ *      to ensure legitimacy  of votes, a hash is received  in the comment object
+ *      that must be sent back for a vote to work. this hash could come from the
+ *      comment ID and a secret salt stored in the session variables on the server
+ *      a new one would be generated upon each login
+ */
+
 function upVoteComment(ID) {
     //console.log("This is where the upvote request would be sent for comment " + ID);
-    $.post("http://www.blacklight-app.com/blb/extensionAPI.php", {request: "voteComment", vote: "plus", commentID: ID}, function(data, status) {
+    $.post(blacklightServer+"/extension/extensionAPI.php", {request: "voteComment", vote: "plus", commentID: ID}, function(data, status) {
                         //console.log(data);
                         var responseObj = JSON.parse(data);
                         //console.log(responseObj);
@@ -225,7 +210,7 @@ function upVoteComment(ID) {
 }
 function downVoteComment(ID) {
     //console.log("This is where the downvote request would be sent for comment " + ID);
-    $.post("http://www.blacklight-app.com/blb/extensionAPI.php", {request: "voteComment", vote: "minus", commentID: ID}, function(data, status) {
+    $.post(blacklightServer+"/extension/extensionAPI.php", {request: "voteComment", vote: "minus", commentID: ID}, function(data, status) {
                     //console.log(data);
                     var responseObj = JSON.parse(data);
                     //console.log(responseObj);
@@ -234,13 +219,6 @@ function downVoteComment(ID) {
                         $("#blCommentContainer" + ID).children("div.blLcomment").children('div.blCommentPoints').children('div.blCommentPointsInner').html(parseInt(currentPts) - 1);
                     }
                 });
-}
-
-function addCommentAnimations() {
-/*
- * Not implemented yet
- */
-
 }
 
 function getCommentX(comment){

@@ -38,7 +38,7 @@ document.getElementsByTagName('head')[0].appendChild(script);
  * Change this on every release and make note in changelog
  */
 var VERSION_CODE = "0001"; 
-var username = "Carter";
+var blacklightServer = "https://blacklight.larence.xyz";
 /*
  * gPos stores the coordinates whenever the mouse is right clicked, has 4 variables within:
  *  clientX: Horizontal coordinate of the comment in pixels
@@ -57,18 +57,26 @@ function onClickHandler(info, tab) {
     if (info.menuItemId === "leaveComment" && gPos != null) {
         
         var commentText = window.prompt("Enter Comment","");
+        if (commentText == null || commentText == '' || commentText == ' ') {
+            return;
+        }
+        
         var pageUrl = info.pageUrl;
-        console.log(info);
-        console.log('Position X: ' + gPos.clientX + 'px of ' + gPos.clientWidth + '\nPosition Y: ' + gPos.clientY + 'px of ' + gPos.clientHeight);
+        //console.log(info);
+        //console.log('Position X: ' + gPos.clientX + 'px of ' + gPos.clientWidth + '\nPosition Y: ' + gPos.clientY + 'px of ' + gPos.clientHeight);
         if (commentText != "") {
             $.ajax({
-                url: 'http://www.blacklight-app.com/blb/submit.php',
+                
+                url: blacklightServer+'/extension/extensionAPI.php',
                 type: 'post',
-                data: 'commentUrl='+pageUrl+'&commentText='+commentText+'&commentUsername='+username+'&clientVersion='+VERSION_CODE
+                data: 'request=submitComment&commentUrl='+pageUrl+'&commentText='+commentText+'&clientVersion='+VERSION_CODE
                         +'&clientX='+gPos.clientX+'&clientY='+gPos.clientY+'&clientHeight='+gPos.clientHeight+'&clientWidth='+gPos.clientWidth,
                 success: function(output) 
                 {
-                    alert("Server Says: "+output);
+                    console.log(output);
+                    var responseObj = JSON.parse(output);
+                    console.log(responseObj);
+                    alert("Server Says: " + responseObj.message);
                 }, error: function()
                 {
                     alert('something went wrong, submit failed');
