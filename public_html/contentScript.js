@@ -65,7 +65,12 @@ chrome.extension.onMessage.addListener(function(msg, sender, sendResponse) {
             createComment(entry);
             
         });
-        addCommentAnimations();
+//        for (var c in msg.comments) {
+//            console.log("COMMENT is " + JSON.stringify(c));
+//            createComment(c);
+//        }
+    
+        //addCommentAnimations();
     } else if (msgsShown = true) {
         $("#__blmsg_overlay").show();
     }
